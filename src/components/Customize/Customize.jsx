@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useState } from "react"
 import notcoin from '../../assets/coin.svg'
 
 import './Customize.scss'
