@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react"
+import { useContext } from "react"
 import notcoin from '../../assets/coin.svg'
 
 import './Customize.scss'
 import { Context } from "../../Context/Context"
-import { Button, IconButton, Snackbar } from "@mui/material"
-import CloseIcon from '@mui/icons-material/Close';
+import { Button } from "@mui/material"
 
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import TouchAppIcon from '@mui/icons-material/TouchApp';
@@ -27,38 +26,33 @@ function Customize() {
   // ENERGY
   const { energyLevel, setEnergyLevel } = useContext(Context)
   const { energyUpLevelPrice, setEnergyUpLevelPrice } = useContext(Context)
+  const { setEnergy } = useContext(Context)
 
   const { rocket, setRocket } = useContext(Context)
   const { setUseRocket } = useContext(Context)
 
-  const [open, setOpen] = useState(false);
-  const [maxOpen, setMaxOpen] = useState(false)
+  const { power, setPower } = useContext(Context)
+
+  const { setOpen } = useContext(Context);
 
   const { setValue } = useContext(Context)
+  const { snackMsg, setSnackMsg } = useContext(Context)
 
   const navigate = useNavigate()
 
-  const handleClick = () => {
+  const handleClick = (msg, status) => {
     setOpen(true);
+    setSnackMsg({
+      msg: msg,
+      status: status,
+    })
+    console.log(snackMsg.status);
+    if (snackMsg.status == "success") {
+      setValue('/');
+      navigate('/');
+      return;
+    }
   };
-
-  const handleClose = () => {
-    setOpen(false);
-    setMaxOpen(false)
-  };
-
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="error"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
 
   return (
     <div className="boost">
@@ -67,11 +61,10 @@ function Customize() {
           if (rocket >= 1) {
             setRocket(rocket - 1)
             setUseRocket(true)
-            navigate('/')
-            setValue('/')
+            handleClick("Boosted successfully", "success")
           }
           else {
-            alert("No")
+            handleClick("You haven't any type of this boost", "error")
           }
         }}>
           <RocketLaunchIcon sx={{fontSize: "38px", marginRight: "5px", color: 'red'}} /> 
@@ -80,11 +73,20 @@ function Customize() {
             <p>{rocket} / 3</p>
           </div>
         </Button>
-        <Button className="helpers__btn">
+        <Button className="helpers__btn" onClick={() => {
+          if (power >= 1) {
+            setPower(power - 1)
+            setEnergy(energyLevel * 500)
+            handleClick("Boosted successfully", "success")
+          }
+          else {
+            handleClick("You haven't any type of this boost")
+          }
+        }}>
           <BatteryFullIcon sx={{fontSize: "38px", marginRight: "5px", color: 'green'}} />
           <div>
             <b>Full Energy</b>
-            <p>3 / 3</p>
+            <p>{power} / 3</p>
           </div>
         </Button>
       </div>
@@ -96,7 +98,7 @@ function Customize() {
             setTap(tap - tapPrice)
           }
           else {
-            handleClick()
+            handleClick("You haven't enough coins to upgrade this", "error")
           }
         }}>
           <div>
@@ -113,7 +115,7 @@ function Customize() {
             setEnergyLevel(energyLevel + 1)
           }
           else {
-            handleClick()
+            handleClick("You haven't enough coins to upgrade this", "error")
           }
         }}>
           <div>
@@ -125,7 +127,8 @@ function Customize() {
         </button>
         <button className="myBtn energyGrowLevelUp" onClick={() => {
           if (energyGrowLevel >= 5) {
-            setMaxOpen(true)
+            setOpen(true)
+            handleClick("You have reached the maximum upgrade level", "error")
             return;
           }
           if (tap >= energyGrowPrice) {
@@ -138,7 +141,7 @@ function Customize() {
             setEnergyGrowPrice(energyGrowPrice * 2)
           }
           else {
-            handleClick()
+            handleClick("You haven't enough coins to upgrade this", "error")
           }
         }}>
           <div>
@@ -148,22 +151,6 @@ function Customize() {
             {energyGrowLevel >= 5 ? `MAX` : energyGrowPrice} <img src={notcoin} alt={notcoin} /> <NavigateNextIcon />
           </div>
         </button>
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          message="You haven't enough coins to upgrade this"
-          action={action}
-        />
-        <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={maxOpen}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          message="You have reached the maximum upgrade level"
-          action={action}
-        />
       </div>
     </div>
   )

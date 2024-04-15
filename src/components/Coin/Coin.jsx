@@ -8,27 +8,12 @@ function Coin() {
     const { tap, setTap } = useContext(Context)
     const { tapLevel, setTapLevel } = useContext(Context)
 
-    // GROW
-    const { energyGrowLevel } = useContext(Context)
-
     // ENERGY
     const { energyLevel } = useContext(Context)
     const { energy, setEnergy } = useContext(Context)
 
     // ROCKET
     const { useRocket, setUseRocket } = useContext(Context)
-
-    useEffect(() => {
-        if (energy >= energyLevel * 500) {
-            setEnergy(energyLevel * 500)
-            return;
-        }
-        const interval = setInterval(() => {
-            setEnergy(energy => energy + energyGrowLevel);
-        }, 1000);
-
-        return () => clearInterval(interval); // Очистка интервала при размонтировании компонента
-    }, [energyLevel, energy, energyGrowLevel, setEnergy]);
 
     useEffect(() => {
         if (useRocket === false) {
@@ -40,7 +25,7 @@ function Coin() {
         const interval = setTimeout(() => {
             setTapLevel(prevTapLevel => prevTapLevel / 5);
             setUseRocket(false)
-        }, 10000);
+        }, 3000);
 
         return () => clearTimeout(interval);
     }, [useRocket, setTapLevel, setUseRocket]);
@@ -55,6 +40,17 @@ function Coin() {
                 if (energy >= tapLevel) {
                     setTap(tap + tapLevel)
                     setEnergy(energy - tapLevel)
+                    const heart = document.createElement('div');
+                    const heartContainer = document.querySelector('.coin__btn');
+                    heart.classList.add('heart');
+
+                    // Добавляем сердечко в контейнер
+                    heartContainer.appendChild(heart);
+
+                    // Удаляем сердечко после завершения анимации
+                    heart.addEventListener('animationend', () => {
+                        heart.remove();
+                    });
                 }
                 else {
                     alert("Please wait...")
@@ -63,7 +59,7 @@ function Coin() {
                 <img className='bigCoin' src={notcoin} alt={notcoin} />
             </button>
             <progress id='p1' value={energy} max={energyLevel * 500}></progress>
-            <b>{energy}</b>
+            <b>{energy} / {energyLevel * 500}</b>
         </div>
     )
 }
