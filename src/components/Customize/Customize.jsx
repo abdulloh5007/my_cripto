@@ -35,10 +35,10 @@ function Customize() {
 
   const { setOpen } = useContext(Context);
 
-  const { setValue } = useContext(Context)
+  // const { setValue } = useContext(Context)
   const { snackMsg, setSnackMsg } = useContext(Context)
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const handleClick = (msg, status) => {
     setOpen(true);
@@ -47,11 +47,11 @@ function Customize() {
       status: status,
     })
     console.log(snackMsg.status);
-    if (snackMsg.status == "success") {
-      setValue('/');
-      navigate('/');
-      return;
-    }
+    // if (snackMsg.status == "success") {
+    //   setValue('/');
+    //   navigate('/');
+    //   return;
+    // }
   };
 
   return (

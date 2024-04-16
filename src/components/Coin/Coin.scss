@@ -16,6 +16,9 @@ $b: 0.15em;
     margin-top: 50px;
     max-width: 700px;
     width: 100%;
+    h2 {
+        margin-bottom: 20px;
+    }
     &__btn {
         width: 400px;
         height: 400px;
@@ -66,16 +69,24 @@ $b: 0.15em;
         animation: rise 2s ease forwards;
     }
     
-    @keyframes rise {
-        0% { top: 50%; opacity: 1; }
-        100% { top: 0; opacity: 0; }
+    .auth {
+        margin-top: 40px;
+        button {
+            margin-top: 20px;
+            color: black;
+        }
     }
-    
-    /* Стили для сердечка */
-    .heart::after {
-        content: url('../../assets/coin.svg'); /* Юникод символ сердца */
-        font-size: 36px;
-    }
+}
+
+@keyframes rise {
+    0% { top: 50%; opacity: 1; }
+    100% { top: 0; opacity: 0; }
+}
+
+/* Стили для сердечка */
+.heart::after {
+    content: url('../../assets/coin.svg'); /* Юникод символ сердца */
+    font-size: 36px;
 }
 
 @media screen and (max-width: 1024px) {

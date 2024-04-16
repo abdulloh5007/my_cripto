@@ -3,7 +3,7 @@ import { createContext } from "react";
 
 const Context = createContext()
 
-function Provider({ children }) {
+function ProviderContext({ children }) {
     // MuLTI-TAP
     const [tap, setTap] = useState(0)
     const [tapLevel, setTapLevel] = useState(1)
@@ -45,5 +45,5 @@ function Provider({ children }) {
 
 export {
     Context,
-    Provider
+    ProviderContext
 }

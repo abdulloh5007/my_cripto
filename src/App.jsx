@@ -8,6 +8,8 @@ import React, { useContext, useEffect } from 'react'
 import { Context } from './Context/Context'
 import { IconButton, Snackbar } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
+import Login from './pages/Login/Login'
+import Register from './pages/Register/Register'
 
 function App() {
   const { energy, setEnergy } = useContext(Context)
@@ -52,6 +54,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Coin />} />
         <Route path='/upgrade' element={<Customize />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
       <Appbar />
 
